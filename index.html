@@ -3,199 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hoidir24 Links</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <title>hoidir24 · tautan</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS ASLI KAMU */
-        *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-        body{
-            margin:0;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:radial-gradient(circle at top,#1b1f3b,#050512);
-            color:#fff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        /* CUACA DENGAN TOMBOL PINDAH KOTA */
-        .weather{
-            position:fixed;
-            top:15px;
-            left:15px;
-            display:flex;
-            align-items:center;
-            gap:10px;
-            padding:8px 14px;
-            border-radius:12px;
-            background:rgba(0,0,0,.4);
-            backdrop-filter:blur(6px);
-            font-size:13px;
-            box-shadow:0 0 15px rgba(127,92,255,.6);
-            z-index: 1000;
-        }
-        .weather img{ width:28px; height:28px; }
-        .city-btns { display: flex; gap: 5px; margin-top: 3px; }
-        .btn-city { 
-            font-size: 9px; 
-            background: rgba(255,255,255,0.1); 
-            padding: 1px 4px; 
-            border-radius: 3px; 
-            cursor: pointer; 
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn-city:hover { background: rgba(255,255,255,0.3); }
 
-        .clock{
-            position:fixed;
-            top:15px;
-            right:15px;
-            padding:8px 14px;
-            border-radius:12px;
-            background:rgba(0,0,0,.4);
-            backdrop-filter:blur(6px);
-            font-size:14px;
-            box-shadow:0 0 15px rgba(0,229,255,.6);
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 10% 20%, #1e1a3a, #0b0b18);
+            color: #fff;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Bubble container untuk animasi musik */
+        .bubble-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #7f5cff, #00e5ff);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: bubble-float 4s ease-in forwards;
+            box-shadow: 0 0 15px #7f5cff;
+        }
+
+        @keyframes bubble-float {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.9;
+                transform: translateY(-50vh) scale(1.2);
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        /* weather widget */
+        .weather-widget {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem 0.4rem 0.8rem;
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            z-index: 1001;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .weather-icon {
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 2px 4px #7f5cff);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .city-switch {
+            display: flex;
+            gap: 4px;
+        }
+
+        .city-btn {
+            font-size: 0.65rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: rgba(127, 92, 255, 0.25);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        .city-btn:hover {
+            background: rgba(127, 92, 255, 0.5);
+            border-color: rgba(127, 92, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* jam */
+        .clock-widget {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            padding: 0.4rem 1.2rem;
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: 'Montserrat', monospace;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 1001;
+        }
+
+        /* card utama */
+        .profile-card {
+            max-width: 360px;
+            width: 100%;
+            padding: 2rem 1.5rem 1.5rem;
+            background: rgba(15, 15, 30, 0.45);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 2rem;
+            box-shadow: 0 30px 60px -15px black;
+            position: relative;
             z-index: 1000;
         }
-        .card{
-            width:100%;
-            max-width:380px;
-            padding:35px 25px 30px;
-            text-align:center;
-            border-radius:22px;
-            background:rgba(255,255,255,.03);
-            backdrop-filter:blur(10px);
-            box-shadow:0 0 40px rgba(127,92,255,.25);
-            position:relative;
+
+        .badge-owner {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(115deg, #7f5cff, #00e5ff);
+            color: #0a0a18;
+            font-weight: 700;
+            font-size: 0.7rem;
+            font-family: 'Montserrat', sans-serif;
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 15px #7f5cffb0;
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-transform: uppercase;
         }
-        .badge{
-            position:absolute;
-            top:-12px;
-            left:50%;
-            transform:translateX(-50%);
-            padding:6px 16px;
-            border-radius:20px;
-            font-size:12px;
-            background:linear-gradient(135deg,#00e5ff,#7f5cff);
-            color:#000;
-            font-weight:bold;
+
+        .avatar-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 1rem;
+            padding: 4px;
+            background: linear-gradient(135deg, #7f5cff, #00e5ff);
+            border-radius: 22px;
+            box-shadow: 0 15px 25px -10px #7f5cff;
         }
-        .avatar{
-            width:140px;
-            height:140px;
-            margin:auto;
-            border-radius:22px;
-            padding:6px;
-            background:linear-gradient(135deg,#7f5cff,#00e5ff);
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 2px solid rgba(255,255,255,0.15);
         }
-        .avatar img{ width:100%; height:100%; border-radius:18px; object-fit:cover; }
-        h1{margin:18px 0 6px}
-        .desc{font-size:14px;opacity:.85}
-        .sosmed{ display:flex; justify-content:center; gap:14px; margin:24px 0; }
-        .sosmed a{
-            width:42px; height:42px; display:flex; align-items:center; justify-content:center;
-            border-radius:12px; background:rgba(255,255,255,.06); color:#fff; font-size:18px; transition:.3s;
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #c5b9ff, #a58eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.5px;
         }
-        .sosmed a:hover{ transform:scale(1.15); }
-        .link{
-            display:flex; align-items:center; gap:12px; padding:15px; margin:14px 0;
-            border-radius:16px; background:linear-gradient(135deg,rgba(127,92,255,.25),rgba(0,229,255,.15));
-            text-decoration:none; color:#fff; transition:.3s;
+
+        .role {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #b8b8d0;
+            letter-spacing: 0.5px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 0.8rem;
+            margin-bottom: 0.8rem;
         }
-        .link:hover{transform:scale(1.05)}
-        footer{margin-top:25px; font-size:12px; opacity:.6}
+
+        /* social media */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            margin: 1.2rem 0 1rem;
+        }
+
+        .social-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            font-size: 1.3rem;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.25s;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .social-item:hover {
+            background: rgba(127, 92, 255, 0.3);
+            border-color: #7f5cff;
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 20px -8px #7f5cff;
+        }
+
+        /* link cards */
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.7rem 0;
+            background: rgba(20, 15, 35, 0.6);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.03);
+            text-decoration: none;
+            color: white;
+            transition: 0.25s;
+            font-size: 0.9rem;
+            font-weight: 400;
+            backdrop-filter: blur(4px);
+        }
+
+        .link-card i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+            color: #b3a6ff;
+        }
+
+        .link-card span {
+            flex: 1;
+            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .link-card:hover {
+            background: rgba(127, 92, 255, 0.25);
+            border-color: rgba(127, 92, 255, 0.5);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 15px 25px -12px #5f3cdf;
+        }
+
+        .link-card:hover i {
+            color: white;
+        }
+
+        /* kontrol musik */
+        .music-control {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 0.8rem;
+        }
+
+        .music-btn {
+            background: rgba(127, 92, 255, 0.3);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .music-btn:hover {
+            background: rgba(127, 92, 255, 0.7);
+            transform: scale(1.1);
+        }
+
+        .music-status {
+            color: #b3a6ff;
+            font-size: 0.7rem;
+            font-weight: 400;
+        }
+
+        footer {
+            margin-top: 1.5rem;
+            font-size: 0.65rem;
+            color: #6f6f9b;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            padding-top: 1rem;
+            text-align: center;
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
 
-    <div class="weather">
-        <img id="weatherIcon" style="display:none;">
-        <div>
+    <!-- Container untuk bubble animasi -->
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <!-- weather widget -->
+    <div class="weather-widget">
+        <img id="weatherIcon" class="weather-icon" src="https://cdn-icons-png.flaticon.com/512/1779/1779940.png" alt="cuaca">
+        <div class="weather-info">
             <span id="weatherText">Memuat...</span>
-            <div class="city-btns">
-                <span class="btn-city" onclick="tampilkanCuacaByNama('Jakarta')">ID</span>
-                <span class="btn-city" onclick="tampilkanCuacaByNama('Kuala Lumpur')">MY</span>
+            <div class="city-switch">
+                <span class="city-btn" onclick="tampilkanCuacaByNama('Jakarta')">ID</span>
+                <span class="city-btn" onclick="tampilkanCuacaByNama('Kuala Lumpur')">MY</span>
             </div>
         </div>
     </div>
 
-    <div class="clock" id="clock">00:00:00</div>
+    <!-- jam -->
+    <div class="clock-widget" id="clock">00:00:00</div>
 
-    <div class="card">    
-        <div class="badge">OWNER 🗿</div>    
-        <div class="avatar">    
-            <img src="https://i.ibb.co.com/8DJ0QVM2/IMG-20250317-220004-736.jpg" onerror="this.src='https://via.placeholder.com/140'">    
-        </div>    
-        <h1>hoidir24</h1>    
-        <div class="desc">Web Developer | Content Creator</div>    
-        <div class="sosmed">    
-            <a href="https://github.com/indprime-glitch"><i class="fab fa-github"></i></a>    
-            <a href="https://www.instagram.com/hoidir"><i class="fab fa-instagram"></i></a>    
-            <a href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>    
-            <a href="https://www.tiktok.com/@hoidir24"><i class="fab fa-tiktok"></i></a>    
-            <a href="#"><i class="fab fa-discord"></i></a>    
-        </div>  
-        <a class="link" href="https://bahagiakembali.edgeone.app/"><i class="fas fa-globe"></i> Support</a>  
-        <a class="link" href="https://youtu.be/J5qH8iY0Xxw?feature=shared"><i class="fab fa-youtube"></i> YouTube</a>  
-        <a class="link" href="mailto:ahmadhoidir05@gmail.com"><i class="fas fa-envelope"></i> Email</a>    
-        <footer>© hoidir24 - web ini dilindungi oleh hak cipta 2026</footer>    
+    <!-- kontrol musik -->
+    <div class="music-control">
+        <span class="music-status" id="musicStatus">🎵 off</span>
+        <button class="music-btn" id="musicToggle">
+            <i class="fas fa-play" id="musicIcon"></i>
+        </button>
+    </div>
+
+    <!-- audio element untuk musik -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/q9yzyb.mp3" type="audio/mpeg">
+        Browser tidak mendukung audio
+    </audio>
+
+    <!-- card utama -->
+    <div class="profile-card">
+        <div class="badge-owner">✦ OWNER ✦</div>
+
+        <div class="avatar-container">
+            <img class="avatar-img" src="https://i.ibb.co.com/8DJ0QVM2/IMG-20250317-220004-736.jpg" alt="hoidir24" onerror="this.src='https://via.placeholder.com/110/1e1a3a/ffffff?text=hoidir24'">
+        </div>
+
+        <h1>hoidir24</h1>
+        <div class="role">web developer & content creator</div>
+
+        <!-- social media -->
+        <div class="social-links">
+            <a href="https://github.com/indprime-glitch" class="social-item" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/hoidir" class="social-item" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com" class="social-item" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.tiktok.com/@hoidir24" class="social-item" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="social-item"><i class="fab fa-discord"></i></a>
+        </div>
+
+        <!-- link cards -->
+        <a class="link-card" href="https://bahagiakembali.edgeone.app/" target="_blank">
+            <i class="fas fa-heart"></i>
+            <span>Support</span>
+            <i class="fas fa-arrow-right" style="font-size: 0.8rem; opacity:0.6;"></i>
+        </a>
+
+        <a class="link-card" href="https://youtu.be/J5qH8iY0Xxw" target="_blank">
+            <i class="fab fa-youtube"></i>
+            <span>YouTube</span>
+            <i class="fas fa-arrow-right" style="font-size: 0.8rem; opacity:0.6;"></i>
+        </a>
+
+        <a class="link-card" href="mailto:ahmadhoidir05@gmail.com">
+            <i class="fas fa-envelope"></i>
+            <span>Email</span>
+            <i class="fas fa-arrow-right" style="font-size: 0.8rem; opacity:0.6;"></i>
+        </a>
+
+        <footer>
+            © 2026 hoidir24 · crafted with <i class="fas fa-moon" style="color: #7f5cff; font-size: 0.6rem;"></i>
+        </footer>
     </div>
 
     <script>
-        // JAM - Mengikuti jam perangkat lokal
-        function updateClock(){    
-            const n=new Date();    
-            document.getElementById('clock').textContent=    
-                n.getHours().toString().padStart(2,'0')+":"+    
-                n.getMinutes().toString().padStart(2,'0')+":"+    
-                n.getSeconds().toString().padStart(2,'0');    
-        }    
-        setInterval(updateClock,1000);    
+        // Jam
+        const clockEl = document.getElementById('clock');
+        function updateClock() {
+            const now = new Date();
+            clockEl.textContent = now.getHours().toString().padStart(2,'0') + ':' +
+                                 now.getMinutes().toString().padStart(2,'0') + ':' +
+                                 now.getSeconds().toString().padStart(2,'0');
+        }
+        setInterval(updateClock, 1000);
         updateClock();
 
-        // CUACA DENGAN DUA KOTA CADANGAN
-        const apiKey = "14549822942734d0d4f9f84d28ef095b";
+        // Cuaca
+        const apiKey = '14549822942734d0d4f9f84d28ef095b';
+        const weatherIcon = document.getElementById('weatherIcon');
+        const weatherText = document.getElementById('weatherText');
 
-        function iconWeather(main){
-            if(main.includes("Rain")) return "https://cdn-icons-png.flaticon.com/512/414/414974.png";
-            if(main.includes("Cloud")) return "https://cdn-icons-png.flaticon.com/512/414/414927.png";
-            if(main.includes("Clear")) return "https://cdn-icons-png.flaticon.com/512/869/869869.png";
-            return "https://cdn-icons-png.flaticon.com/512/1779/1779940.png";
+        function getIcon(condition) {
+            const c = condition.toLowerCase();
+            if (c.includes('rain')) return 'https://cdn-icons-png.flaticon.com/512/414/414974.png';
+            if (c.includes('cloud')) return 'https://cdn-icons-png.flaticon.com/512/414/414927.png';
+            if (c.includes('clear')) return 'https://cdn-icons-png.flaticon.com/512/869/869869.png';
+            return 'https://cdn-icons-png.flaticon.com/512/1779/1779940.png';
         }
 
         function fetchCuaca(url) {
             fetch(url)
-                .then(r => r.json())
-                .then(d => {
-                    const weatherIcon = document.getElementById('weatherIcon');
-                    weatherIcon.src = iconWeather(d.weather[0].main);
-                    weatherIcon.style.display = "block";
-                    document.getElementById('weatherText').textContent = `${d.name} • ${Math.round(d.main.temp)}°C`;
+                .then(res => res.json())
+                .then(data => {
+                    weatherIcon.src = getIcon(data.weather[0].main);
+                    weatherText.textContent = `${data.name} • ${Math.round(data.main.temp)}°C`;
                 })
                 .catch(() => {
-                    document.getElementById('weatherText').textContent = "Error";
+                    weatherText.textContent = 'Error';
                 });
         }
 
-        // Fungsi manual untuk tombol cadangan
-        function tampilkanCuacaByNama(namaKota) {
-            fetchCuaca(`https://api.openweathermap.org/data/2.5/weather?q=${namaKota}&units=metric&lang=id&appid=${apiKey}`);
-        }
+        window.tampilkanCuacaByNama = function(kota) {
+            fetchCuaca(`https://api.openweathermap.org/data/2.5/weather?q=${kota}&units=metric&appid=${apiKey}`);
+        };
 
-        // Otomatis deteksi GPS dulu
+        // Cek lokasi
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    fetchCuaca(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&units=metric&lang=id&appid=${apiKey}`);
+                    fetchCuaca(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&units=metric&appid=${apiKey}`);
                 },
-                () => {
-                    // Jika GPS gagal/ditolak, otomatis tampilkan Jakarta
-                    tampilkanCuacaByNama('Jakarta');
-                }
+                () => tampilkanCuacaByNama('Jakarta')
             );
         } else {
             tampilkanCuacaByNama('Jakarta');
         }
+
+        // ========== MUSIK DENGAN BUBBLE SEDERHANA ==========
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicStatus = document.getElementById('musicStatus');
+        const musicToggle = document.getElementById('musicToggle');
+        const bubbleContainer = document.getElementById('bubbleContainer');
+        
+        let bubbleInterval;
+        let isPlaying = false;
+
+        audio.volume = 0.3; // volume lebih kecil biar enak
+
+        // Fungsi membuat bubble
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            // Random posisi dan ukuran
+            const left = Math.random() * 100;
+            const size = 15 + Math.random() * 30; // 15-45px
+            const duration = 3 + Math.random() * 3; // 3-6 detik
+            
+            bubble.style.left = left + '%';
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.animationDuration = duration + 's';
+            
+            // Random warna sedikit
+            if (Math.random() > 0.5) {
+                bubble.style.background = 'linear-gradient(135deg, #ff5c9e, #ffb347)';
+                bubble.style.boxShadow = '0 0 15px #ff5c9e';
+            }
+            
+            bubbleContainer.appendChild(bubble);
+            
+            // Hapus setelah animasi selesai
+            setTimeout(() => {
+                bubble.remove();
+            }, duration * 1000);
+        }
+
+        // Mulai bubble interval
+        function startBubbles() {
+            if (bubbleInterval) clearInterval(bubbleInterval);
+            bubbleInterval = setInterval(createBubble, 400); // bubble tiap 0.4 detik
+        }
+
+        // Hentikan bubble interval
+        function stopBubbles() {
+            if (bubbleInterval) {
+                clearInterval(bubbleInterval);
+                bubbleInterval = null;
+            }
+        }
+
+        // Fungsi toggle musik
+        function toggleMusic() {
+            if (isPlaying) {
+                // Pause
+                audio.pause();
+                musicIcon.className = 'fas fa-play';
+                musicStatus.textContent = '🎵 off';
+                isPlaying = false;
+                stopBubbles();
+            } else {
+                // Play
+                audio.play()
+                    .then(() => {
+                        musicIcon.className = 'fas fa-pause';
+                        musicStatus.textContent = '🎵 on';
+                        isPlaying = true;
+                        startBubbles();
+                    })
+                    .catch(err => {
+                        console.log('Gagal play:', err);
+                        alert('Klik izinkan untuk memutar musik');
+                    });
+            }
+        }
+
+        // Event listener tombol musik
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Coba autoplay setelah halaman dimuat
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                audio.play()
+                    .then(() => {
+                        musicIcon.className = 'fas fa-pause';
+                        musicStatus.textContent = '🎵 on';
+                        isPlaying = true;
+                        startBubbles();
+                    })
+                    .catch(() => {
+                        console.log('Autoplay diblokir, user harus klik tombol');
+                    });
+            }, 1000);
+        });
+
+        // Bersihkan interval saat page unload (optional)
+        window.addEventListener('beforeunload', function() {
+            if (bubbleInterval) {
+                clearInterval(bubbleInterval);
+            }
+        });
     </script>
 </body>
-</html>
+    </html>
